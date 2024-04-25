@@ -1,6 +1,6 @@
 ---
 - name: Add Kubernetes repository
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: kubernetes
     description: Kubernetes
     baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
@@ -10,7 +10,7 @@
     gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 
 - name: Install specific version of Kubernetes components
-  yum:
+  ansible.builtin.yum:
     name:
       - "kubelet-{{ kubernetes_version }}"
       - "kubeadm-{{ kubernetes_version }}"
@@ -19,7 +19,7 @@
     disable_gpg_check: yes
 
 - name: Enable kubelet service
-  service:
+  ansible.builtin.service:
     name: kubelet
     enabled: yes
     state: started
