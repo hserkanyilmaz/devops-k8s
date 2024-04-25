@@ -35,10 +35,12 @@
   ansible.builtin.service:
     name: docker
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Disable swap (required for Kubernetes)
-  ansible.builtin.command: swapoff -a
+  ansible.builtin.shell: |
+    swapon --show | grep -q swap && swapoff -a
+  changed_when: false
   failed_when: "'command not found' in result.stderr"
 
 - name: Remove swap from fstab
