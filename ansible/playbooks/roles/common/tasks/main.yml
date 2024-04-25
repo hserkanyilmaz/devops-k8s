@@ -39,7 +39,7 @@
 
 - name: Disable swap (required for Kubernetes)
   ansible.builtin.shell: |
-    swapon --show | grep -q swap && swapoff -a
+    set -o pipefail; swapon --show | grep -q swap && swapoff -a
   changed_when: false
   failed_when: "'command not found' in result.stderr"
 

@@ -9,9 +9,6 @@
     creates: /etc/kubernetes/admin.conf
   register: init_output
 
-- name: Save kubeadm join command to local file
-  ansible.builtin.copy:
-    content: "{{ init_output.stdout_lines[-2] }}"
-    dest: "./join_command.sh"
-  delegate_to: localhost
+- name: Trigger saving of kubeadm join command
+  ansible.builtin.meta: flush_handlers
   when: init_output is changed

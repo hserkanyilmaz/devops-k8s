@@ -17,3 +17,4 @@
   args:
     executable: /bin/bash
   when: join_command.changed
+  changed_when: "'joined' in decoded_join_command.stdout"
