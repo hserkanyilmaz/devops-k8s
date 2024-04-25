@@ -1,0 +1,49 @@
+---
+- name: Install required packages
+  yum:
+    name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - curl
+      - wget
+      - git
+      - net-tools
+      - nano
+      - ca-certificates
+      - gnupg2
+    state: present
+
+- name: Add Docker repository
+  yum_repository:
+    name: docker-ce
+    description: Docker CE Stable - $basearch
+    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: https://download.docker.com/linux/centos/gpg
+
+- name: Install Docker CE
+  yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+
+- name: Ensure Docker service is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Disable swap (required for Kubernetes)
+  shell: swapoff -a
+  ignore_errors: true
+
+- name: Remove swap from fstab
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^/dev/mapper/centos-swap'
+    replace: ''
+    backup: yes

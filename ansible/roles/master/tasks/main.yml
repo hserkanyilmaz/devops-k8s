@@ -1,0 +1,16 @@
+---
+- include_role:
+  name: kubernetes_common
+
+- name: Initialize the Kubernetes cluster
+  shell: kubeadm init --pod-network-cidr={{ kubernetes_network_cidr }} --kubernetes-version="{{ kubernetes_version }}"
+  args:
+    creates: /etc/kubernetes/admin.conf
+  register: init_output
+
+- name: Save kubeadm join command to local file
+  local_action:
+    module: copy
+    content: "{{ init_output.stdout_lines[-2] }}"
+    dest: "./join_command.sh"
+  when: init_output is changed

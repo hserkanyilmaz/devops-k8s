@@ -1,11 +1,17 @@
-- hosts: masters
-  become: true
+---
+- name: Prepare all nodes
+  pre_tasks:
+    - include_vars: "{{ inventory_dir }}/group_vars/all.yml"
+  hosts: all
   roles:
-    - role: geerlingguy.kubernetes
+    - common
 
-- hosts: workers
-  become: true
+- name: Setup Kubernetes master
+  hosts: masters
   roles:
-    - role: geerlingguy.kubernetes
-  vars:
-    kubernetes_allow_pods_on_master: no
+    - master
+
+- name: Setup Kubernetes workers
+  hosts: workers
+  roles:
+    - worker

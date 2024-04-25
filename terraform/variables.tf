@@ -53,7 +53,12 @@ variable "vm_folder_name" {
   description = "Folder name to place VMs in"
 }
 
-variable "ip_address_pool" {
+variable "master_ip_pool" {
   type        = list(string)
-  description = "IP address pool for VMs"
+  description = "IP address pool for master VMs"
+}
+
+variable "worker_ip_pool" {
+  type        = list(string)
+  description = "IP address pool for worker VMs"
 }

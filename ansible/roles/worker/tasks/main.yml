@@ -1,0 +1,18 @@
+---
+- include_role:
+  name: kubernetes_common
+
+- name: Fetch the join command from local file
+  slurp:
+    src: join_command.sh
+  register: join_command
+
+- name: Decode the join command
+  set_fact:
+    decoded_join_command: "{{ join_command['content'] | b64decode }}"
+
+- name: Join the cluster
+  shell: "{{ decoded_join_command }}"
+  args:
+    executable: /bin/bash
+  when: join_command.changed
