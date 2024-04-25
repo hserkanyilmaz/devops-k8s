@@ -44,6 +44,7 @@
 - name: Remove swap from fstab
   lineinfile:
     path: /etc/fstab
-    regexp: '^/dev/mapper/centos-swap'
-    replace: ''
+    regexp: '^\s*UUID=[^ ]+\s+swap\s+swap'
+    line: '#\0'
+    backrefs: yes
     backup: yes
