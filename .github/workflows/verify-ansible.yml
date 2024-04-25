@@ -1,0 +1,28 @@
+name: Ansible CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install ansible and ansible-lint
+      run: |
+        python -m pip install --upgrade pip
+        pip install ansible ansible-lint
+    - name: Lint Ansible Playbook
+      run: ansible-lint ansible/playbooks/setup_kubernetes.yml
+    - name: Syntax check
+      run: ansible-playbook ansible/playbooks/setup_kubernetes.yml --syntax-check
