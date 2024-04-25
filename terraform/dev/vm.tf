@@ -1,6 +1,6 @@
 resource "vsphere_virtual_machine" "master_vm" {
   count            = var.master_vm_count
-  name             = "FEDCDKUBEM0${count.index + 1}"
+  name             = "KUBEM0${count.index + 1}"
   datastore_id     = data.vsphere_datastore.datastore.id
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   folder           = data.vsphere_virtual_machine.template.folder
@@ -23,8 +23,8 @@ resource "vsphere_virtual_machine" "master_vm" {
     
     customize {
       linux_options {
-        host_name = "FEDCDKUBEM0${count.index + 1}"
-        domain    = "fuzulev.local"
+        host_name = "KUBEM0${count.index + 1}"
+        domain    = "corporate.local"
       }
       
       network_interface {
@@ -39,7 +39,7 @@ resource "vsphere_virtual_machine" "master_vm" {
 
 resource "vsphere_virtual_machine" "worker_vm" {
   count            = var.worker_vm_count
-  name             = "FEDCDKUBEW0${count.index + 1}"
+  name             = "KUBEW0${count.index + 1}"
   datastore_id     = data.vsphere_datastore.datastore.id
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   folder           = data.vsphere_virtual_machine.template.folder
@@ -62,8 +62,8 @@ resource "vsphere_virtual_machine" "worker_vm" {
     
     customize {
       linux_options {
-        host_name = "FEDCDKUBEW0${count.index + 1}"
-        domain    = "fuzulev.local"
+        host_name = "KUBEW0${count.index + 1}"
+        domain    = "corporate.local"
       }
       
       network_interface {

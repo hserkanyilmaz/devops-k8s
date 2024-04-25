@@ -1,7 +1,5 @@
 ---
 - name: Prepare all nodes
-  pre_tasks:
-    - include_vars: "{{ inventory_dir }}/group_vars/all.yml"
   hosts: all
   roles:
     - common
