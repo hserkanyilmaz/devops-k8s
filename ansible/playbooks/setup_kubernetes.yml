@@ -1,0 +1,11 @@
+- hosts: masters
+  become: true
+  roles:
+    - role: geerlingguy.kubernetes
+
+- hosts: workers
+  become: true
+  roles:
+    - role: geerlingguy.kubernetes
+  vars:
+    kubernetes_allow_pods_on_master: no
