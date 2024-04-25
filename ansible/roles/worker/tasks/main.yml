@@ -1,6 +1,7 @@
 ---
-- include_role:
-  name: kubernetes_common
+- name: Include kubernetes_common role
+  include_role:
+    name: kubernetes_common
 
 - name: Fetch the join command from local file
   slurp:
