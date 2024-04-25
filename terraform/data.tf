@@ -22,3 +22,12 @@ data "vsphere_virtual_machine" "template" {
   datacenter_id = data.vsphere_datacenter.dc.id
   folder        = var.vm_folder_name
 }
+
+data "template_file" "ansible_inventory" {
+  template = file("../inventory.tpl")
+
+  vars = {
+    master_ips = join("\n", vsphere_virtual_machine.master_vm.*.default_ip_address)
+    worker_ips = join("\n", vsphere_virtual_machine.worker_vm.*.default_ip_address)
+  }
+}

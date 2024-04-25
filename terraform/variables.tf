@@ -48,7 +48,7 @@ variable "worker_vm_count" {
   description = "Number of Kubernetes worker VMs to create"
 }
 
-variable "vm_folder_name {
+variable "vm_folder_name" {
   type        = string
   description = "Folder name to place VMs in"
 }
