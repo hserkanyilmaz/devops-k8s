@@ -1,6 +1,6 @@
 ---
 - include_role:
-  name: kubernetes_common
+    name: kubernetes_common
 
 - name: Initialize the Kubernetes cluster
   shell: kubeadm init --pod-network-cidr={{ kubernetes_network_cidr }} --kubernetes-version="{{ kubernetes_version }}"
