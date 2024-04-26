@@ -12,7 +12,4 @@
   ansible.builtin.set_fact:
     decoded_join_command: "{{ join_command['content'] | b64decode }}"
   when: join_command.changed
-
-- name: Request joining the cluster if the join command has changed
   notify: Join the cluster
-  when: join_command.changed
