@@ -4,4 +4,3 @@
   args:
     executable: /bin/bash
   listen: Join the cluster
-  changed_when: "'joined' in command_result.stdout"

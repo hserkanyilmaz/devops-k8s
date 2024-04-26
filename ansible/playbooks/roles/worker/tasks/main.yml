@@ -13,7 +13,7 @@
     decoded_join_command: "{{ join_command['content'] | b64decode }}"
   when: join_command.changed
 
-- name: Notify handler to join the cluster
+- name: Request joining the cluster if the join command has changed
   ansible.builtin.meta: flush_handlers
   notify: Join the cluster
   when: join_command.changed
