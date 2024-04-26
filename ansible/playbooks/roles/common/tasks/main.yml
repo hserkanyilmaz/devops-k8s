@@ -1,6 +1,6 @@
 ---
 - name: Install required packages
-  yum:
+  ansible.builtin.yum:
     name:
       - yum-utils
       - device-mapper-persistent-data
@@ -15,7 +15,7 @@
     state: present
 
 - name: Add Docker repository
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: docker-ce
     description: Docker CE Stable - $basearch
     baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
@@ -24,7 +24,7 @@
     gpgkey: https://download.docker.com/linux/centos/gpg
 
 - name: Install Docker CE
-  yum:
+  ansible.builtin.yum:
     name:
       - docker-ce
       - docker-ce-cli
@@ -32,19 +32,21 @@
     state: present
 
 - name: Ensure Docker service is running
-  service:
+  ansible.builtin.service:
     name: docker
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Disable swap (required for Kubernetes)
-  shell: swapoff -a
-  ignore_errors: true
+  ansible.builtin.shell: |
+    set -o pipefail; swapon --show | grep -q swap && swapoff -a
+  changed_when: false
+  failed_when: "'command not found' in result.stderr"
 
 - name: Remove swap from fstab
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/fstab
     regexp: '^\s*UUID=[^ ]+\s+swap\s+swap'
     line: '#\0'
-    backrefs: yes
-    backup: yes
+    backrefs: true
+    backup: true

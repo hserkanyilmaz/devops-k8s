@@ -1,19 +1,15 @@
 ---
-- name: Include kubernetes_common role
-  include_role:
+- name: Include common tasks
+  ansible.builtin.include_role:
     name: kubernetes_common
 
 - name: Fetch the join command from local file
-  slurp:
+  ansible.builtin.slurp:
     src: join_command.sh
   register: join_command
 
 - name: Decode the join command
-  set_fact:
+  ansible.builtin.set_fact:
     decoded_join_command: "{{ join_command['content'] | b64decode }}"
-
-- name: Join the cluster
-  shell: "{{ decoded_join_command }}"
-  args:
-    executable: /bin/bash
   when: join_command.changed
+  notify: Join the cluster
