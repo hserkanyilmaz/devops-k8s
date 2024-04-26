@@ -1,0 +1,7 @@
+---
+- name: Join the cluster
+  ansible.builtin.command: "{{ decoded_join_command }}"
+  args:
+    executable: /bin/bash
+  when: join_command.changed
+  changed_when: "'joined' in decoded_join_command.stdout"

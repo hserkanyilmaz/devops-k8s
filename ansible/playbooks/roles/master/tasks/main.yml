@@ -9,6 +9,7 @@
     creates: /etc/kubernetes/admin.conf
   register: init_output
 
-- name: Trigger saving of kubeadm join command
+- name: Notify handler to save kubeadm join command
   ansible.builtin.meta: flush_handlers
+  notify: Save kubeadm join command
   when: init_output is changed

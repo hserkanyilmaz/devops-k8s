@@ -12,9 +12,7 @@
   ansible.builtin.set_fact:
     decoded_join_command: "{{ join_command['content'] | b64decode }}"
 
-- name: Join the cluster
-  ansible.builtin.command: "{{ decoded_join_command }}"
-  args:
-    executable: /bin/bash
+- name: Notify handler to join the cluster
+  ansible.builtin.meta: flush_handlers
+  notify: Join the cluster
   when: join_command.changed
-  changed_when: "'joined' in decoded_join_command.stdout"
