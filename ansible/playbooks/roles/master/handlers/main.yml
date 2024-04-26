@@ -5,4 +5,4 @@
     dest: "./join_command.sh"
     mode: '0644'
   delegate_to: localhost
-  when: init_output is changed
+  listen: Save kubeadm join command
