@@ -3,11 +3,10 @@
   yum_repository:
     name: kubernetes
     description: Kubernetes
-    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+    baseurl: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
     enabled: 1
     gpgcheck: 1
-    repo_gpgcheck: 1
-    gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    gpgkey: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
 
 - name: Install specific version of Kubernetes components
   yum:
@@ -17,7 +16,8 @@
       - "kubectl-{{ kubernetes_version }}"
     state: present
     disable_gpg_check: yes
-
+    disable_excludes: kubernetes
+    
 - name: Enable kubelet service
   service:
     name: kubelet
